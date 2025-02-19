@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      redbird-midflap_0: -2444444294041275488
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

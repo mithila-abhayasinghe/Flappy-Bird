@@ -1,16 +1,23 @@
 using UnityEngine;
 public class Spawner : MonoBehaviour
 {
-    public GameObject pipe;
+
     [SerializeField] float spawnRate = 2f;
+    [SerializeField] float heightOffset = 3;
+
+    public GameObject pipe;
     private float timer = 0;
-    public float heightOffset = 3;
+
     void Start()
     {
         spawnPipe();
     }
     void Update()
     {
+        if (GameManager.Instance.isGamePaused || GameManager.Instance.isGameOver)
+        { 
+            return; 
+        }
         if (timer < spawnRate)
         {
             timer = timer + Time.deltaTime;

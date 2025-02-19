@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      redbird-downflap_0: 8155579026580062065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

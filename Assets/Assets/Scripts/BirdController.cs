@@ -49,9 +49,12 @@ public class BirdController : MonoBehaviour
         // Apply an impulse force for instant velocity change
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
+        // Play the jump sound when the player Jumps 
         audioSource.PlayOneShot(jumpSound);
     }
 
+
+    // Code for scoring
     void OnTriggerEnter2D(Collider2D collision)
     {
         // Check if the bird passed through a pillar's trigger
@@ -72,5 +75,24 @@ public class BirdController : MonoBehaviour
     {
         scoreText.text = score.ToString();
     }
+
+    // Code for game over 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Check if the bird hits a pipe or the ground
+        if (collision.gameObject.CompareTag("Pillar") || collision.gameObject.CompareTag("Ground"))
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        // Play the Death sound
+        audioSource.PlayOneShot(endSound);
+        // Trigger game over
+        GameManager.Instance.GameOver();
+    }
+
 }
 
