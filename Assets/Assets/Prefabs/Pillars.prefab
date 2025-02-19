@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 333164980358023235}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.14, y: 5.03, z: 0}
+  m_LocalPosition: {x: 0.14, y: 5.81, z: 0}
   m_LocalScale: {x: 1, y: -1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6186335936887281156, guid: 339b91e4eea511541ba78f0298291adf, type: 3}
+  m_Sprite: {fileID: -4624705965712902137, guid: eac9712ba2078324b9291b118c2f6eaf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -122,17 +122,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.30310535}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.04, y: 6.4}
+    oldSize: {x: 0.87, y: 7.5}
     newSize: {x: 1.04, y: 6.4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.04, y: 6.4}
+  m_Size: {x: 1.04, y: 7.0062103}
   m_EdgeRadius: 0
 --- !u!1 &2672542847071673253
 GameObject:
@@ -211,7 +211,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -6186335936887281156, guid: 339b91e4eea511541ba78f0298291adf, type: 3}
+  m_Sprite: {fileID: -4624705965712902137, guid: eac9712ba2078324b9291b118c2f6eaf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -256,17 +256,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.28454828}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.04, y: 6.4}
+    oldSize: {x: 0.87, y: 7.5}
     newSize: {x: 1.04, y: 6.4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.04, y: 6.4}
+  m_Size: {x: 1.04, y: 6.9690967}
   m_EdgeRadius: 0
 --- !u!1 &4234413928166596486
 GameObject:
