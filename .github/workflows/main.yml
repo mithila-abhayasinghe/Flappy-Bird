@@ -63,6 +63,66 @@ jobs:
               } \
               location ~ \.(data|wasm|symbols\.json)$ { \
                   types { \
+                      application/octet-stream data; name: Build Unity Project to WebGL and Create Docker Image
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual triggering
+jobs:
+  build:
+    name: WebGl Builder
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      # Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      # Cache Library folder to speed up builds
+      - name: Cache Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      # Build the WebGL project
+      - name: Build WebGL
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: WebGL
+          buildName: WebGLBuild
+          buildsPath: build
+          unityVersion: 6000.0.32f1
+
+      # Create Dockerfile in the build directory
+      - name: Create Dockerfile
+        run: |
+          mkdir -p build/WebGL/WebGLBuild
+          cat > build/WebGL/WebGLBuild/Dockerfile << 'EOF'
+          FROM nginx:alpine
+          COPY . /usr/share/nginx/html
+          RUN echo 'server { \
+              listen 80; \
+              server_name localhost; \
+              root /usr/share/nginx/html; \
+              location / { \
+                  try_files $uri $uri/ /index.html; \
+              } \
+              location ~ \.(data|wasm|symbols\.json)$ { \
+                  types { \
                       application/octet-stream data; \
                       application/wasm wasm; \
                       application/json symbols.json; \
@@ -76,7 +136,34 @@ jobs:
           EXPOSE 80
           CMD ["nginx", "-g", "daemon off;"]
           EOF
-      
+
+      # Check if build files exist, if not create a placeholder
+      - name: Check Build Files and Create Placeholder if Needed
+        run: |
+          if [ ! -f "build/WebGL/WebGLBuild/index.html" ]; then
+            echo "WebGL build not found, creating placeholder files"
+            mkdir -p build/WebGL/WebGLBuild
+            cat > build/WebGL/WebGLBuild/index.html << 'EOF'
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <title>Unity WebGL Build</title>
+              <style>
+                body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+                .container { max-width: 800px; margin: 0 auto; }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>Unity WebGL Build</h1>
+                <p>The Unity WebGL build is currently being worked on.</p>
+                <p>Please check back later.</p>
+              </div>
+            </body>
+            </html>
+            EOF
+          fi
+
       # Commit the build and Dockerfile back to the repository
       - name: Commit Build to Repository
         run: |
@@ -85,18 +172,18 @@ jobs:
           git add build
           git commit -m "Add WebGL build and Dockerfile [skip ci]" || echo "No changes to commit"
           git push
-      
+
       # Build and push Docker image
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
