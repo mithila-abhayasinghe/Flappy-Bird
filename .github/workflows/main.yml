@@ -1,69 +1,4 @@
 name: Build Unity Project to WebGL and Create Docker Image
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch: # Allows manual triggering
-
-jobs:
-  build:
-    name: WebGl Builder
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-    
-    steps:
-      # Checkout repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          lfs: true
-      
-      # Cache Library folder to speed up builds
-      - name: Cache Library
-        uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
-          restore-keys: |
-            Library-
-      
-      # Build the WebGL project
-      - name: Build WebGL
-        uses: game-ci/unity-builder@v2
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-        with:
-          targetPlatform: WebGL
-          buildName: WebGLBuild
-          # Fixed: Removed buildPath and use buildsPath instead
-          buildsPath: build
-
-      # Create build directory if it doesn't exist yet
-      - name: Ensure Build Directory Exists
-        run: mkdir -p build/WebGL/WebGLBuild
-      
-      # Create Dockerfile in the build directory
-      - name: Create Dockerfile
-        run: |
-          cat > build/WebGL/WebGLBuild/Dockerfile << 'EOF'
-          FROM nginx:alpine
-          COPY . /usr/share/nginx/html
-          RUN echo 'server { \
-              listen 80; \
-              server_name localhost; \
-              root /usr/share/nginx/html; \
-              location / { \
-                  try_files $uri $uri/ /index.html; \
-              } \
-              location ~ \.(data|wasm|symbols\.json)$ { \
-                  types { \
-                      application/octet-stream data; name: Build Unity Project to WebGL and Create Docker Image
 on:
   push:
     branches: [ main ]
@@ -105,7 +40,7 @@ jobs:
           targetPlatform: WebGL
           buildName: WebGLBuild
           buildsPath: build
-          unityVersion: 6000.0.32f1
+          unityVersion: 2022.3.15f1 # Replace with your actual Unity version
 
       # Create Dockerfile in the build directory
       - name: Create Dockerfile
