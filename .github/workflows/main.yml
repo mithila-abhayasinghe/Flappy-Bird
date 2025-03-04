@@ -21,14 +21,14 @@ jobs:
           lfs: true
 
       # Cache Library folder to speed up builds
-      - name: Cache Library
+      - name: Cache Repository Root
         uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: .
+          key: repo-root-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
-            Library-
-            Library-default
+              repo-root-
+              repo-root-default
 
       # Build the WebGL project
       - name: Build WebGL
